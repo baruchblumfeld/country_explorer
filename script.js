@@ -44,10 +44,7 @@ const getJSON = function (url, errorMessage = 'Something went wrong') {
   });
 
 const getCountryAndNeighbours = function (country) {
-  getJSON(`https://api.restcountries.com/countries/v5?q=${country}`, 'Country not found' {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    })
+  getJSON(`https://api.restcountries.com/countries/v5?q=${country}`, 'Country not found')
     .then((data) => {
       console.log(data);
       renderCountry(data[0]);
