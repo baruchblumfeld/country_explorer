@@ -33,9 +33,12 @@ const renderError = function (message) {
   // countriesContainer.style.opacity = 1;
 };
 
-const getJSON = function (url, errorMessage = 'Something went wrong', options = {}) {
-  return fetch(url, options).then((response) => {
-    console.log(response);
+const getJSON = function (url, errorMessage = 'Something went wrong') {
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  }).then((response) => {
     if (!response.ok) throw new Error(`${errorMessage} (${response.status})`);
     return response.json();
   });
@@ -64,14 +67,10 @@ const getCountryAndNeighbours = function (country) {
       if (!neighbour || neighbour.length === 0) {
       throw new Error('No neighbour found');
       }
-      rreturn getJSON(
+      return getJSON(
   `https://api.restcountries.com/countries/v5?codes=${neighbour.join(',')}`,
   'Country not found',
-  {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  })
+  )
     .then((resData) => {
       resData.forEach((data) => {
         const languages = Object.values(data.languages);
