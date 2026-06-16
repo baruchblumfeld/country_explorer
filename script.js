@@ -45,41 +45,36 @@ const getJSON = function (url, errorMessage = 'Something went wrong') {
 };
 
 const getCountryAndNeighbours = function (country) {
-  getJSON(`https://api.restcountries.com/countries/v5?q=${country}`, 'Country not found')
+  getJSON(
+    `https://api.restcountries.com/countries/v5?q=${country}`,
+    'Country not found'
+  )
     .then((data) => {
-      console.log(data);
       renderCountry(data[0]);
-
-      //   const neighbour = data[0].borders?.[0];
-
-      //   return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-      // })
-      // .then((response) => response.json())
-      // .then((data) => {
-      //   renderCountry(data[0], 'neighbour');
-      // });
-      ////////
 
       const neighbour = data[0].borders;
       if (!neighbour || neighbour.length === 0) {
-      throw new Error('No neighbour found');
+        throw new Error('No neighbour found');
       }
+
+      // 🔥 KLUCZ: return kończy tego thena
       return getJSON(
-  `https://api.restcountries.com/countries/v5?codes=${neighbour.join(',')}`,
-  'Country not found',
-  )
+        `https://api.restcountries.com/countries/v5?codes=${neighbour.join(',')}`,
+        'Country not found'
+      );
+    })
     .then((resData) => {
       resData.forEach((data) => {
-        const languages = Object.values(data.languages);
-        const currencies = Object.values(data.currencies);
-        renderCountry(data, languages, currencies, 'neighbour');
+        renderCountry(data, undefined, undefined, 'neighbour');
       });
     })
     .catch((err) => {
       console.error(err);
       renderError(`Something went wrong: ${err.message}. Try again!`);
     })
-    .finally(() => (countriesContainer.style.opacity = 1));
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
 };
 
 btn.addEventListener('click', function () {
