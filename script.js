@@ -1,5 +1,4 @@
 'use strict';
-const API_KEY = 'rc_live_8c4a61c58b414b3ca82f8a8a21afb493';
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
