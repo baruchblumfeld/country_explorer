@@ -42,7 +42,6 @@ const getJSON = function (url, errorMessage = 'Something went wrong') {
     if (!response.ok) throw new Error(`${errorMessage} (${response.status})`);
     return response.json();
   });
-};
 
 const getCountryAndNeighbours = function (country) {
   getJSON(`https://api.restcountries.com/countries/v5?q=${country}`, 'Country not found' {
